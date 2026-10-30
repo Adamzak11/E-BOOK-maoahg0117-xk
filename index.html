@@ -1126,6 +1126,16 @@ h2 .num { text-shadow: var(--txt-glow); }
     }).catch(function () {});
   }
   setupAdmin();
+
+  // Pengumuman dibaca daripada fail pengumuman.json (senang disunting di GitHub)
+  try {
+    fetch('pengumuman.json?v=' + Date.now(), { cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) {
+        if (j && Array.isArray(j.ann)) { STATE.ann = j.ann; STATE.on = j.on !== false; renderTicker(); }
+      })
+      .catch(function () {});
+  } catch (e) {}
 })();
 </script>
 </body>
